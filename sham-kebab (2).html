@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sham Kebab — Brno</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --yellow: #f5c800;
+      --yellow2: #ffd740;
+      --yellow-dark: #1a1600;
+      --green: #1e6b3a;
+      --green2: #24803f;
+      --green-dark: #0f1a0f;
+      --orange: #e84c0a;
+      --orange2: #ff6b2b;
+      --text-dark: #1a1200;
+      --text-light: #ffffff;
+      --muted-green: #a8d4b0;
+      --border-y: rgba(245,200,0,0.3);
+      --border-g: rgba(36,128,63,0.3);
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--green-dark); color: var(--text-light); font-family: 'Inter', sans-serif; font-weight: 300; overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0;
+      background: transparent;
+    }
+    .nav-yellow {
+      background: var(--yellow);
+      padding: 16px 40px;
+      flex: 1;
+      display: flex; align-items: center;
+    }
+    .nav-logo {
+      font-family: 'Oswald', sans-serif; font-size: 1.6rem;
+      letter-spacing: 0.12em; color: var(--green); font-weight: 900;
+      text-transform: uppercase;
+    }
+    .nav-logo span { color: var(--orange); }
+    .nav-green {
+      background: var(--green);
+      padding: 16px 40px;
+      flex: 1;
+      display: flex; justify-content: flex-end; align-items: center;
+      gap: 32px;
+    }
+    .nav-green a {
+      color: var(--yellow); text-decoration: none; font-size: 0.7rem;
+      letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600;
+      transition: color 0.3s;
+    }
+    .nav-green a:hover { color: white; }
+
+    /* HERO - SPLIT LIKE POSTER */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      padding-top: 60px;
+    }
+
+    /* LEFT - YELLOW */
+    .hero-left {
+      background: var(--yellow);
+      display: flex; flex-direction: column;
+      justify-content: center;
+      padding: 80px 60px 80px 80px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp 0.8s 0.3s ease forwards;
+    }
+    .hero-left::after {
+      content: '';
+      position: absolute;
+      right: -30px; top: 0; bottom: 0;
+      width: 60px;
+      background: var(--yellow);
+      clip-path: polygon(0 0, 0 100%, 100% 100%);
+      z-index: 2;
+    }
+    .hero-eyebrow {
+      font-size: 0.65rem; letter-spacing: 0.5em; text-transform: uppercase;
+      color: var(--green); font-weight: 700; margin-bottom: 16px;
+    }
+    .hero-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(4rem, 8vw, 7rem);
+      font-weight: 900; line-height: 0.9;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 12px;
+    }
+    .hero-title .orange { color: var(--orange); }
+    .hero-star {
+      font-size: 1.5rem; color: var(--orange);
+      margin-bottom: 20px; letter-spacing: 4px;
+    }
+    .hero-desc {
+      font-size: 0.9rem; color: var(--green);
+      line-height: 1.7; max-width: 340px;
+      margin-bottom: 36px; font-weight: 400;
+    }
+    .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-green {
+      padding: 14px 40px; background: var(--green); color: var(--yellow);
+      text-decoration: none; font-family: 'Oswald', sans-serif;
+      font-size: 0.9rem; letter-spacing: 0.2em; text-transform: uppercase;
+      font-weight: 700; transition: background 0.3s, transform 0.2s;
+    }
+    .btn-green:hover { background: var(--green2); transform: translateY(-2px); }
+    .btn-orange {
+      padding: 14px 40px; background: var(--orange); color: white;
+      text-decoration: none; font-family: 'Oswald', sans-serif;
+      font-size: 0.9rem; letter-spacing: 0.2em; text-transform: uppercase;
+      font-weight: 700; transition: background 0.3s, transform 0.2s;
+    }
+    .btn-orange:hover { background: var(--orange2); transform: translateY(-2px); }
+
+    /* RIGHT - GREEN */
+    .hero-right {
+      background: var(--green);
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      padding: 80px 60px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp 0.8s 0.5s ease forwards;
+    }
+    .hero-right::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 60% 50%, rgba(245,200,0,0.08) 0%, transparent 70%);
+    }
+    .kebab-emoji {
+      font-size: clamp(8rem, 15vw, 14rem);
+      line-height: 1;
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
+      animation: float 3s ease-in-out infinite;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-badge {
+      position: absolute; bottom: 40px; right: 40px;
+      width: 100px; height: 100px; border-radius: 50%;
+      border: 3px solid var(--yellow);
+      background: rgba(245,200,0,0.1);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 2px;
+    }
+    .hero-badge-num { font-family: 'Oswald', sans-serif; font-size: 2rem; color: var(--yellow); font-weight: 900; line-height: 1; }
+    .hero-badge-text { font-size: 0.45rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted-green); text-align: center; }
+
+    /* STRIP */
+    .strip {
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .strip-yellow {
+      background: var(--yellow2);
+      padding: 24px 40px;
+      display: flex; align-items: center; gap: 40px;
+    }
+    .strip-green {
+      background: var(--green2);
+      padding: 24px 40px;
+      display: flex; align-items: center; justify-content: flex-end; gap: 40px;
+    }
+    .strip-item-y { font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.15em; color: var(--green); text-transform: uppercase; font-weight: 700; }
+    .strip-item-g { font-family: 'Oswald', sans-serif; font-size: 0.9rem; letter-spacing: 0.15em; color: var(--yellow); text-transform: uppercase; font-weight: 700; }
+
+    /* MENU SECTION */
+    .menu-section { padding: 100px 80px; max-width: 1200px; margin: 0 auto; text-align: center; }
+    .section-header { margin-bottom: 48px; }
+    .section-tag { font-size: 0.6rem; letter-spacing: 0.42em; text-transform: uppercase; color: var(--yellow); margin-bottom: 12px; font-weight: 600; }
+    .section-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      letter-spacing: 0.08em; line-height: 1;
+      font-weight: 900; text-transform: uppercase;
+    }
+    .section-title .y { color: var(--yellow); }
+    .section-title .o { color: var(--orange); }
+
+    /* SHOW MENU BTN */
+    .show-menu-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 14px;
+      padding: 16px 56px; background: var(--yellow); color: var(--green-dark);
+      font-family: 'Oswald', sans-serif; font-size: 1.1rem; letter-spacing: 0.2em;
+      text-transform: uppercase; font-weight: 700; border: none; cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .show-menu-btn:hover { background: var(--yellow2); transform: translateY(-2px); }
+    .show-menu-btn .arrow { transition: transform 0.3s; font-size: 1rem; display: inline-block; }
+
+    .menu-content { display: none; margin-top: 56px; text-align: left; }
+    .menu-content.visible { display: block; animation: fadeIn 0.5s ease; }
+
+    .menu-category { margin-bottom: 52px; }
+    .cat-label {
+      font-family: 'Oswald', sans-serif; font-size: 1rem; letter-spacing: 0.25em;
+      color: var(--yellow); margin-bottom: 16px; padding-bottom: 12px;
+      border-bottom: 2px solid var(--border-y); display: flex; align-items: center;
+      gap: 12px; font-weight: 700; text-transform: uppercase;
+    }
+    .cat-icon { font-size: 1.1rem; }
+
+    .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2px; }
+    .menu-item {
+      padding: 20px 26px; background: var(--dark2); border: 1px solid rgba(245,200,0,0.1);
+      transition: all 0.3s; border-left: 3px solid transparent;
+    }
+    .menu-item:hover { background: var(--dark3); border-left-color: var(--yellow); }
+    .menu-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 6px; }
+    .menu-name { font-family: 'Oswald', sans-serif; font-size: 1.05rem; font-weight: 600; color: white; letter-spacing: 0.04em; }
+    .menu-price { font-family: 'Oswald', sans-serif; font-size: 1.05rem; color: var(--yellow); white-space: nowrap; font-weight: 700; }
+    .menu-desc { font-size: 0.69rem; color: var(--muted-green); line-height: 1.6; }
+    .menu-sizes { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+    .size-badge {
+      font-family: 'Oswald', sans-serif; font-size: 0.72rem; color: var(--yellow);
+      background: rgba(245,200,0,0.1); border: 1px solid rgba(245,200,0,0.3);
+      padding: 3px 10px; letter-spacing: 0.05em; font-weight: 600;
+    }
+
+    .extras-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2px; }
+    .extra-item {
+      padding: 14px 22px; background: var(--dark2); border: 1px solid rgba(245,200,0,0.1);
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.85rem; transition: all 0.3s; border-left: 3px solid transparent;
+    }
+    .extra-item:hover { background: var(--dark3); border-left-color: var(--yellow); }
+    .extra-name { font-weight: 400; color: white; }
+    .extra-price { font-family: 'Oswald', sans-serif; color: var(--yellow); font-weight: 700; }
+
+    /* INFO */
+    .info { padding: 100px 80px; background: var(--green); border-top: 2px solid var(--yellow); }
+    .info-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+    .info-block h3 {
+      font-family: 'Oswald', sans-serif; font-size: 1rem; letter-spacing: 0.28em;
+      color: var(--yellow); margin-bottom: 28px; font-weight: 700; text-transform: uppercase;
+    }
+    .hours-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(245,200,0,0.15); font-size: 0.82rem; }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-day { color: var(--muted-green); }
+    .contact-line {
+      display: flex; align-items: center; gap: 14px; padding: 14px 0;
+      border-bottom: 1px solid rgba(245,200,0,0.15); font-size: 0.82rem;
+      color: white; text-decoration: none; transition: color 0.3s;
+    }
+    .contact-line:hover { color: var(--yellow); }
+    .contact-line:last-child { border-bottom: none; }
+    .contact-icon {
+      width: 32px; height: 32px; border: 1px solid rgba(245,200,0,0.3);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; background: rgba(245,200,0,0.08);
+    }
+
+    footer {
+      display: grid; grid-template-columns: 1fr 1fr;
+      border-top: 2px solid var(--yellow);
+    }
+    .footer-yellow {
+      background: var(--yellow); padding: 28px 60px;
+      display: flex; align-items: center;
+    }
+    .footer-logo { font-family: 'Oswald', sans-serif; font-size: 1.3rem; letter-spacing: 0.12em; color: var(--green); font-weight: 900; text-transform: uppercase; }
+    .footer-logo span { color: var(--orange); }
+    .footer-green {
+      background: var(--green); padding: 28px 60px;
+      display: flex; align-items: center; justify-content: flex-end;
+    }
+    .footer-copy { font-size: 0.6rem; letter-spacing: 0.15em; color: var(--muted-green); text-transform: uppercase; }
+
+    /* CSS VARIABLES for dark sections */
+    --dark2: #162316;
+    --dark3: #1e2e1e;
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-left, .hero-right { opacity: 1 !important; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+    @media (max-width: 768px) {
+      nav { flex-direction: column; }
+      .nav-yellow, .nav-green { padding: 12px 20px; }
+      .nav-green { justify-content: flex-start; gap: 20px; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-left { padding: 80px 24px 40px; }
+      .hero-left::after { display: none; }
+      .hero-right { padding: 40px 24px 80px; min-height: 300px; }
+      .strip { grid-template-columns: 1fr; }
+      .menu-section { padding: 70px 20px; }
+      .info { padding: 70px 20px; }
+      .info-inner { grid-template-columns: 1fr; gap: 48px; }
+      footer { grid-template-columns: 1fr; }
+      .footer-yellow, .footer-green { padding: 20px 24px; }
+      .footer-green { justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-yellow">
+      <div class="nav-logo">KEBAB <span>SHAM</span></div>
+    </div>
+    <div class="nav-green">
+      <a href="#menu">Menu</a>
+      <a href="#info">Kontakt</a>
+      <a href="tel:608084353">608 084 353</a>
+    </div>
+  </nav>
+
+  <!-- HERO - SPLIT -->
+  <section class="hero">
+    <!-- ŽLUTÁ STRANA -->
+    <div class="hero-left">
+      <p class="hero-eyebrow">Syrská kuchyně · Brno-střed</p>
+      <h1 class="hero-title">KEBAB<br><span class="orange">SHAM</span></h1>
+      <div class="hero-star">★★★★★</div>
+      <p class="hero-desc">Autentický syrský kebab v srdci Brna. Čerstvé maso, domácí omáčky a speciality přímo z Levantu.</p>
+      <div class="hero-cta">
+        <a href="#menu" class="btn-green">Prohlédnout menu</a>
+        <a href="tel:608084353" class="btn-orange">608 084 353</a>
+      </div>
+    </div>
+
+    <!-- ZELENÁ STRANA -->
+    <div class="hero-right">
+      <div class="kebab-emoji">🌯</div>
+      <div class="hero-badge">
+        <div class="hero-badge-num">4.6</div>
+        <div class="hero-badge-text">Google<br>546 recenzí</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STRIP -->
+  <div class="strip">
+    <div class="strip-yellow">
+      <span class="strip-item-y">🔥 Syrské speciality</span>
+      <span class="strip-item-y">· Otevřeno denně ·</span>
+    </div>
+    <div class="strip-green">
+      <span class="strip-item-g">Joštova 4, Brno</span>
+      <span class="strip-item-g">⭐ 4.6 / 5</span>
+    </div>
+  </div>
+
+  <!-- MENU -->
+  <section class="menu-section" id="menu">
+    <div class="section-header">
+      <p class="section-tag">Co nabízíme</p>
+      <h2 class="section-title"><span class="y">NAŠE</span> <span class="o">MENU</span></h2>
+    </div>
+
+    <button class="show-menu-btn" onclick="toggleMenu(this)">
+      🌯 Zobrazit menu <span class="arrow">▼</span>
+    </button>
+
+    <div class="menu-content">
+
+      <!-- KEBAB V TORTILLE -->
+      <div class="menu-category">
+        <div class="cat-label"><span class="cat-icon">🌯</span>Kebab v tortille</div>
+        <div class="menu-grid">
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Tortilla klasik</span></div>
+            <div class="menu-sizes"><span class="size-badge">Malý: 110 Kč</span><span class="size-badge">Velký: 130 Kč</span></div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Tortilla s ovčím sýrem</span></div>
+            <div class="menu-sizes"><span class="size-badge">Malý: 125 Kč</span><span class="size-badge">Velký: 145 Kč</span></div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Mega tortilla</span></div>
+            <div class="menu-sizes"><span class="size-badge">184 Kč</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KEBAB V CHLEBU -->
+      <div class="menu-category">
+        <div class="cat-label"><span class="cat-icon">🫓</span>Kebab v chlebu</div>
+        <div class="menu-grid">
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Chléba klasik</span></div>
+            <div class="menu-sizes"><span class="size-badge">Malý: 100 Kč</span><span class="size-badge">Velký: 120 Kč</span></div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Chléba s ovčím sýrem</span></div>
+            <div class="menu-sizes"><span class="size-badge">Malý: 120 Kč</span><span class="size-badge">Velký: 140 Kč</span></div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Smažený sýr v chlebu</span><span class="menu-price">80 Kč</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KEBAB BOX -->
+      <div class="menu-category">
+        <div class="cat-label"><span class="cat-icon">📦</span>Kebab Box</div>
+        <div class="menu-grid">
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Kebab s hranolky</span></div>
+            <div class="menu-sizes"><span class="size-badge">Malý: 140 Kč</span><span class="size-badge">Velký: 160 Kč</span></div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Kebab s rýží</span></div>
+            <div class="menu-sizes"><span class="size-badge">Malý: 125 Kč</span><span class="size-badge">Velký: 145 Kč</span></div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Kebab s nudlemi</span></div>
+            <div class="menu-sizes"><span class="size-badge">Malý: 125 Kč</span><span class="size-badge">Velký: 145 Kč</span></div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Kebab se salátem</span></div>
+            <div class="menu-sizes"><span class="size-badge">Malý: 120 Kč</span><span class="size-badge">Velký: 140 Kč</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BEZMASÁ JÍDLA -->
+      <div class="menu-category">
+        <div class="cat-label"><span class="cat-icon">🥗</span>Bezmasá jídla</div>
+        <div class="menu-grid">
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Hranolky</span></div>
+            <div class="menu-sizes"><span class="size-badge">Malé: 60 Kč</span><span class="size-badge">Velké: 80 Kč</span></div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Hranolky se salátem</span></div>
+            <div class="menu-sizes"><span class="size-badge">Malé: 100 Kč</span><span class="size-badge">Velké: 120 Kč</span></div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Rýže / nudle se salátem</span></div>
+            <div class="menu-sizes"><span class="size-badge">Malé: 90 Kč</span><span class="size-badge">Velké: 110 Kč</span></div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Falafel se salátem</span></div>
+            <div class="menu-sizes"><span class="size-badge">Malý: 100 Kč</span><span class="size-badge">Velký: 120 Kč</span></div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Falafel v tortille</span></div>
+            <div class="menu-sizes"><span class="size-badge">Malý: 90 Kč</span><span class="size-badge">Velký: 110 Kč</span></div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Falafel v chlebu</span></div>
+            <div class="menu-sizes"><span class="size-badge">Malý: 80 Kč</span><span class="size-badge">Velký: 100 Kč</span></div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Míchaný salát</span></div>
+            <div class="menu-sizes"><span class="size-badge">Malý: 80 Kč</span><span class="size-badge">Velký: 100 Kč</span></div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Smažený sýr s hranolkami</span><span class="menu-price">120 Kč</span></div>
+            <p class="menu-desc">Smažený sýr, hranolky, omáčka</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SHAM SPECIALITY -->
+      <div class="menu-category">
+        <div class="cat-label"><span class="cat-icon">⭐</span>Sham speciality</div>
+        <div class="menu-grid">
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Sham tortilla</span><span class="menu-price">150 Kč</span></div>
+            <p class="menu-desc">Speciální syrská tortilla s výběrem náplně</p>
+          </div>
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Sham box</span><span class="menu-price">125 Kč</span></div>
+            <p class="menu-desc">Speciální box s výběrem přílohy</p>
+          </div>
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Kebbeh 2 ks</span><span class="menu-price">120 Kč</span></div>
+            <p class="menu-desc">Smažené kuličky z hovězího masa, bulguru a cibule</p>
+          </div>
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Kebbeh 3 ks</span><span class="menu-price">150 Kč</span></div>
+            <p class="menu-desc">Smažené kuličky z hovězího masa, bulguru a cibule</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SAMBUSEK -->
+      <div class="menu-category">
+        <div class="cat-label"><span class="cat-icon">🥟</span>Sambusek</div>
+        <p style="font-size:0.72rem;color:var(--muted-green);margin-bottom:16px;">Plněné trojúhelníky z listového těsta</p>
+        <div class="menu-grid">
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Sambusek se sýrem</span></div>
+            <div class="menu-sizes"><span class="size-badge">3 ks: 120 Kč</span><span class="size-badge">5 ks: 180 Kč</span></div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Sambusek se špenátem</span></div>
+            <div class="menu-sizes"><span class="size-badge">3 ks: 120 Kč</span><span class="size-badge">5 ks: 180 Kč</span></div>
+          </div>
+          <div class="menu-item">
+            <div class="menu-row"><span class="menu-name">Sambusek s masem</span></div>
+            <div class="menu-sizes"><span class="size-badge">3 ks: 130 Kč</span><span class="size-badge">5 ks: 190 Kč</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NAVÍC -->
+      <div class="menu-category">
+        <div class="cat-label"><span class="cat-icon">➕</span>Navíc</div>
+        <div class="extras-grid">
+          <div class="extra-item"><span class="extra-name">Sýr</span><span class="extra-price">+20 Kč</span></div>
+          <div class="extra-item"><span class="extra-name">Jalapeño</span><span class="extra-price">+20 Kč</span></div>
+          <div class="extra-item"><span class="extra-name">Kyselé okurky</span><span class="extra-price">+20 Kč</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- INFO -->
+  <section class="info" id="info">
+    <div class="info-inner">
+      <div class="info-block">
+        <h3>Otevírací doba</h3>
+        <div class="hours-row"><span class="hours-day">Pondělí – Úterý</span><span>10:00 – 1:00</span></div>
+        <div class="hours-row"><span class="hours-day">Středa – Pátek</span><span>10:00 – 2:00</span></div>
+        <div class="hours-row"><span class="hours-day">Sobota</span><span>11:00 – 2:00</span></div>
+        <div class="hours-row"><span class="hours-day">Neděle</span><span>11:00 – 0:00</span></div>
+      </div>
+      <div class="info-block">
+        <h3>Kde nás najdete</h3>
+        <a href="tel:608084353" class="contact-line">
+          <div class="contact-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f5c800" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.07 6.07l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+          608 084 353
+        </a>
+        <a href="https://maps.google.com/?q=Joštova+4,+602+00+Brno" target="_blank" class="contact-line">
+          <div class="contact-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f5c800" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          Joštova 4, Brno-střed
+        </a>
+        <a href="https://maps.google.com/?q=Joštova+4,+602+00+Brno" target="_blank" class="contact-line">
+          <div class="contact-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f5c800" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+          Zobrazit na mapě →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-yellow">
+      <div class="footer-logo">KEBAB <span>SHAM</span></div>
+    </div>
+    <div class="footer-green">
+      <div class="footer-copy">© 2026 · Joštova 4, Brno-střed</div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu(btn) {
+      btn.classList.toggle('open');
+      const content = document.querySelector('.menu-content');
+      content.classList.toggle('visible');
+      if (content.classList.contains('visible')) {
+        btn.innerHTML = '🌯 Skrýt menu <span class="arrow" style="transform:rotate(180deg);display:inline-block">▼</span>';
+      } else {
+        btn.innerHTML = '🌯 Zobrazit menu <span class="arrow">▼</span>';
+      }
+    }
+  </script>
+
+</body>
+</html>
